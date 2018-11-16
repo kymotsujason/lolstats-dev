@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Panel from './component/Panel';
+import {InputText} from 'primereact/inputtext';
+import {Button} from 'primereact/button';
 
 class App extends Component {
 	state = {
@@ -22,21 +24,21 @@ class App extends Component {
 	  };
 	render() {
 		return (
-		  <div className="App">
-			<form onSubmit={this.handleSubmit}>
-			  <p>
-				<strong>Lolstat</strong>
-			  </p>
-			  <input
-				type="text"
-				value={this.state.post}
-				onChange={e => this.setState({ post: e.target.value })}
-			  />
-			  <button type="submit">Submit</button>
+			<div className="App">
+				<form onSubmit={this.handleSubmit}>
+			  	<p>
+					<strong>Lolstat</strong>
+			  	</p>
+			  	<InputText 
+				  	value={this.state.post}
+				  	onChange={e => this.setState({ post: e.target.value })}
+				/>
+				<Button type="submit" label="Submit"/>
 			</form>
 			<div className="main_container">
 				<Panel
 					data = {this.state.responseToPost}
+					name = {this.state.post}
 				/>
 			</div>
 		  </div>

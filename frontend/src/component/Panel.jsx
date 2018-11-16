@@ -11,47 +11,66 @@ class Panel extends Component {
 		this.renderStats = this.renderStats.bind(this)
 	}
 
-	renderStats(matchInfo) {
+	renderStats(matchInfo, summoner) {
 		var playerCard = [];
 		for (var i = 0; i < matchInfo.participants.length; i++) {
-			playerCard.push(
-				<div>
-					<p>Summoner Name: {matchInfo.participantIdentities[i].player.summonerName}</p>
-					<p>Spell 1: {matchInfo.participants[i].stats.spell1Id}</p>
-					<p>Spell 2: {matchInfo.participants[i].stats.spell2Id}</p>
-					<p>Primary Rune: {matchInfo.participants[i].stats.perkPrimaryStyle}</p>
-					<p>Keystone Rune: {matchInfo.participants[i].stats.perk0}</p>
-					<p>Champion: {matchInfo.participants[i].championId}</p>
-					<p>Kills: {matchInfo.participants[i].stats.kills}</p>
-					<p>Deaths: {matchInfo.participants[i].stats.deaths}</p>
-					<p>Assist: {matchInfo.participants[i].stats.assists}</p>
-					<p>Trinket{matchInfo.participants[i].stats.item0}</p>
-					<p>Item 1: {matchInfo.participants[i].stats.item1}</p>
-					<p>Item 2: {matchInfo.participants[i].stats.item2}</p>
-					<p>Item 3: {matchInfo.participants[i].stats.item3}</p>
-					<p>Item 4: {matchInfo.participants[i].stats.item4}</p>
-					<p>Item 5: {matchInfo.participants[i].stats.item5}</p>
-					<p>Item 6: {matchInfo.participants[i].stats.item6}</p>
-					<p>Champion Level: {matchInfo.participants[i].stats.champLevel}</p>
-					<p>Minions Killed: {matchInfo.participants[i].stats.totalMinionsKilled}</p>
-					<p>Minions Killed per Minuite: {matchInfo.participants[i].stats.totalMinionsKilled / (matchInfo.gameDuration / 60)}</p>
-				</div>
-			)
+			if (matchInfo.participantIdentities[i].player.summonerName === summoner) {
+				playerCard.push(
+					<div className="p-col" key={i}>
+						<div className="p-col">
+							Summoner Name: {matchInfo.participantIdentities[i].player.summonerName} 
+							Champion: {matchInfo.participants[i].championId} 
+							Spell 1: {matchInfo.participants[i].stats.spell1Id} 
+							Spell 2: {matchInfo.participants[i].stats.spell2Id} 
+							Primary Rune: {matchInfo.participants[i].stats.perkPrimaryStyle} 
+							Keystone Rune: {matchInfo.participants[i].stats.perk0} 
+						</div>
+						<div className="p-col">
+							>Kills: {matchInfo.participants[i].stats.kills} 
+							>Deaths: {matchInfo.participants[i].stats.deaths} 
+							>Assist: {matchInfo.participants[i].stats.assists} 
+						</div>
+						<div className="p-col">
+							Trinket{matchInfo.participants[i].stats.item0} 
+							Item 1: {matchInfo.participants[i].stats.item1} 
+							Item 2: {matchInfo.participants[i].stats.item2} 
+							Item 3: {matchInfo.participants[i].stats.item3} 
+							Item 4: {matchInfo.participants[i].stats.item4} 
+							Item 5: {matchInfo.participants[i].stats.item5} 
+							Item 6: {matchInfo.participants[i].stats.item6} 
+						</div>
+						<div className="p-col">
+							Champion Level: {matchInfo.participants[i].stats.champLevel} 
+							Minions Killed: {matchInfo.participants[i].stats.totalMinionsKilled} 
+							Minions Killed per Minuite: {matchInfo.participants[i].stats.totalMinionsKilled / (matchInfo.gameDuration / 60)} 
+						</div>
+					</div>
+				)
+			}
+			else {
+				playerCard.push(
+					<div className="p-col" key={i}>
+							Summoner Name: {matchInfo.participantIdentities[i].player.summonerName} 
+							Champion: {matchInfo.participants[i].championId} 
+					</div>
+				)
+			}
 		}
 		return playerCard;
 	}
 
 	renderPanel() {
+		var summoner = this.props.name;
 		var matchInfo = this.props.data;
 		var panelMenu = []
 		Object.keys(matchInfo).map((match) => (
 			panelMenu.push(
-				<Card key={match} style={{background: '#111', color: 'white'}} className="p-grid p-justify-center">
-					<div>
-						<p>{matchInfo[match].teams[1].win === 'Win' ? 'Victory' : 'Lose'}</p>
-						<p>{matchInfo[match].gameDuration / 60} minutes</p>
-						{this.renderStats(matchInfo[match])}
+				<Card key={match} style={{background: '#111', color: 'white'}} className="p-justify-center">
+					<div className="p-col">
+						{matchInfo[match].teams[1].win === 'Win' ? 'Victory' : 'Lose'} 
+						{matchInfo[match].gameDuration / 60} minutes 
 					</div>
+					{this.renderStats(matchInfo[match], summoner)}
 				</Card>
 			)
 		))
